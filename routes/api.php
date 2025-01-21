@@ -3,7 +3,7 @@
 use App\Models\Ticket;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\AuthController;
 
 
 // http://tickets-please.test/api/v1/tickets

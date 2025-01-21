@@ -12,11 +12,12 @@ use App\Http\Controllers\Api\AuthController;
 // users
 
 Route::prefix('v1')->group(function () {
-    require_once __DIR__.'/api_v1.php';
+    require_once __DIR__ . '/api_v1.php';
 });
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
 
 
 Route::get('/user', function (Request $request) {

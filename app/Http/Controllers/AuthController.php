@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ApiLoginRequest;
+
 use App\Traits\ApiResponses;
 use Illuminate\Http\Request;
+use App\Http\Requests\Api\V1\ApiLoginRequest;
 
 class AuthController extends Controller
 {

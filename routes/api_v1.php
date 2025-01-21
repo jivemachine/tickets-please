@@ -1,9 +1,10 @@
 <?php
 
-use App\Models\Ticket;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Api\V1\TicketController;
+
 
 
 // http://tickets-please.test/api/v1/tickets
@@ -11,12 +12,7 @@ use App\Http\Controllers\AuthController;
 // tickets
 // users
 
-Route::prefix('v1')->group(function () {
-    require_once __DIR__.'/api_v1.php';
-});
-
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/register', [AuthController::class, 'register']);
+Route::apiResource('tickets', TicketController::class);
 
 
 Route::get('/user', function (Request $request) {

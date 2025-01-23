@@ -17,6 +17,7 @@ class TicketPolicy
 
     public function update(User $user, Ticket $ticket)
     {
+        // TODO check for token policy
         return $user->id === $ticket->user_id;
     }
 }

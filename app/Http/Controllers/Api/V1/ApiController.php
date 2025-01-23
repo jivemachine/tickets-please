@@ -11,12 +11,6 @@ class ApiController extends Controller
 {
     use ApiResponses;
 
-    public function __construct()
-    {
-        Gate::guessPolicyNamesUsing(function () {
-            return $this->policyClass;
-        });
-    }
 
     public function include(string $relationship): bool
     {
@@ -31,8 +25,9 @@ class ApiController extends Controller
         return in_array(strtolower($relationship), $includeValues);
     }
 
-    // public function isAble($ability, $targetModel)
-    // {
-    //     return $this->authorize($ability, [$targetModel, $this->policyClass]);
-    // }
+    public function isAble($ability, $targetModel)
+    {
+        $gate = Gate::policy($targetModel::class, $this->policyClass);
+        return $gate->authorize($ability, [$targetModel]);
+    }
 }

@@ -72,7 +72,7 @@ class TicketController extends ApiController
             $ticket = Ticket::findOrFail($ticket_id);
 
             // policy
-            Gate::authorize('update', $ticket);
+            $this->isAble('update', $ticket);
 
             $ticket->update($request->mappedAttributes());
 

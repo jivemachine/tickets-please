@@ -17,7 +17,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class TicketController extends ApiController
 {
 
-    protected string $policyClass = TicketPolicy::class;
+    protected $policyClass = TicketPolicy::class;
 
     /**
      * Display a listing of the resource.
@@ -34,19 +34,13 @@ class TicketController extends ApiController
     public function store(StoreTicketRequest $request)
     {
         try {
-            $user = User::findOrFail($request->input('data.relationships.author.data.id'));
+            // policy
+            $this->isAble('store', Ticket::class);
 
-            $this->isAble('store', null);
-
-            // TODO: create ticket
-
-        } catch (ModelNotFoundException $exception) {
-            return $this->ok('User not found', [
-                'error' => 'The provided user id does not exist'
-            ]);
+            return new TicketResource(Ticket::create($request->mappedAttributes()));
+        } catch (AuthorizationException $ex) {
+            return $this->error('You are not authorized to update that resource', 401);
         }
-
-        return new TicketResource($request->mappedAttributes());
     }
 
     /**

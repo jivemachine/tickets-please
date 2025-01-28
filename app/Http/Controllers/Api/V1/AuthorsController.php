@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Models\User;
 use App\Http\Filters\V1\AuthorFilter;
-use App\Http\Resources\V1\UserResource;
 use App\Http\Requests\Api\V1\StoreUserRequest;
 use App\Http\Requests\Api\V1\UpdateUserRequest;
+use App\Http\Resources\V1\UserResource;
+use App\Models\User;
 
 class AuthorsController extends ApiController
 {
@@ -15,9 +15,14 @@ class AuthorsController extends ApiController
      */
     public function index(AuthorFilter $filters)
     {
-        return UserResource::collection(User::Filter($filters)->paginate());
+        return UserResource::collection(
+            User::select('users.*')
+                ->join('tickets', 'users_id', '=', 'tickets.user_id')
+                ->filter($filters)
+                ->distinct()
+                ->paginate()
+        );
     }
-
 
     /**
      * Store a newly created resource in storage.
@@ -38,7 +43,6 @@ class AuthorsController extends ApiController
 
         return new UserResource($author);
     }
-
 
     /**
      * Update the specified resource in storage.
